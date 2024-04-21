@@ -1,0 +1,53 @@
+server:
+  port: 18081
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos:8848
+        username: admin
+        password: "uze6rvz*ztr7WQD!ygp"
+        namespace: dev
+        group: SEATA_GROUP
+    loadbalancer:
+      ribbon:
+        enabled:true
+  application:
+    name: business-service
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+
+#  tx-service-group: ${spring.application.name}-tx-group
+  config:
+    type: nacos
+    nacos:
+      serverAddr: nacos:8848
+      dataId: 'seata.properties'
+      username: admin
+      password: "uze6rvz*ztr7WQD!ygp"
+      namespace: dev
+      group: SEATA_GROUP
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: nacos:8848
+      username: admin
+      password: "uze6rvz*ztr7WQD!ygp"
+      namespace: dev
+      group: SEATA_GROUP
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+logging:
+  level:
+    io:
+      seata: debug
+
